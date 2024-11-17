@@ -6,10 +6,66 @@
 
 ## Table of Contents
 1. [Description](#description)
-2. [License](#license)
-3. [Contributing](#contributing)
-4. [Tests](#tests)
-5. [Questions](#questions)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Tools and Technologies](#tools-and-technologies)
+6. [Dependencies and Installs](#dependencies-and-installs)
+7. [License](#license)
+8. [Contributing](#contributing)
+9. [Tests](#tests)
+10. [Questions](#questions)
+
+## Features
+- GraphQL API for enhanced data fetching and updates.
+- CRUD operations for managing user accounts and saved books:
+   - Users: Create and authenticate user accounts.
+   - Books: Search, save, view, and remove books from a personalized list.
+- Google Books API integration for fetching book data with title, author, description, and links.
+- Authentication using JSON Web Tokens (JWT).
+- Apollo Client integration for seamless front-end and back-end communication.
+- Fully deployed on Render with a MongoDB Atlas database.
+
+## Installation
+To use the application, follow these steps:
+
+- Step 1: Clone the repository.
+- Step 2: Navigate to the project directory by typing `cd book-vault`.
+- Step 3: Install the required dependencies by running `npm install`.
+
+## Usage
+To start the application, run the following command: `npm run develop`.
+
+Open the application in your browser or use Insomnia to test the API endpoints.
+
+API Features:
+- User Authentication: Sign up, log in, and maintain session security.
+- Search Functionality: Look up books using the search bar powered by the Google Books API.
+- Library Management: Save and manage a personal collection of books.
+
+## Tools and Technologies
+**Programming Language**:
+- TypeScript
+
+**Libraries & Frameworks**:
+- React
+- Express.js
+- Apollo Server (GraphQL)
+
+**Development Environment**:
+  - Node.js
+
+**Development Environment**:
+  - MongoDB Atlas
+
+## Dependencies and Installs
+
+**NPM Packages**:
+- `@apollo/client` - GraphQL client for the React front-end.
+- `apollo-server-express` - Integrates Apollo Server with Express.js.
+- `bcrypt` - Hashes user passwords for secure authentication.
+- `jsonwebtoken` - Handles user tokenization for secure sessions.
+- `mongoose` - ODM for MongoDB, managing schema and data validation.
    
 ## Description
 A modern book search engine built with the MERN stack. Refactored to use GraphQL with Apollo Server, allowing users to search books via Google Books API, save favorites, and manage their reading list. A sleek, intuitive interface for book lovers to find their next great read!
