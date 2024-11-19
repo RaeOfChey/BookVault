@@ -29,6 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 // Asynchronous function to start the server
 async function startServer() {
   // Wait for Apollo Server to start
+  
   await server.start();
   
   // Apply Apollo middleware to the Express server
