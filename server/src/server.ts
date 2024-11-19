@@ -25,12 +25,12 @@ app.use(express.json());
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '../client/dist');
-  console.log(distPath);  // Confirm this path in Render logs
+  console.log('Serving static files from:', distPath);
   app.use(express.static(distPath));
 
   // Fallback to serve index.html for all other routes in production
   app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
 }
 
