@@ -1,8 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",  /* Specify the root folder inside the server source */
-    "outDir": "dist"   /* Specify an output folder for the emitted server files */
+    "rootDir": "./src",  /* Specify the root folder inside the server source */
+    "outDir": "./dist"   /* Specify an output folder for the emitted server files */
   },
   "include": [
     "src/**/*"  /* Include all TypeScript files from the server folder */
