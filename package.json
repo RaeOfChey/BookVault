@@ -6,7 +6,7 @@
     "scripts": {
       "start": "concurrently \"npm run start --prefix server\" \"npm run dev --prefix client\"",
       "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
-      "install": "cd server && npm i && cd ../client && npm i",
+      "install": "cd server && npm install && cd ../client && npm install",
       "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
       "render-build": "npm install && npm list concurrently && npm run build"
     },
