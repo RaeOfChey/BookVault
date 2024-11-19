@@ -1,4 +1,5 @@
 import express from 'express';
+import { Request, Response } from 'express';
 import path from 'path';
 import db from './config/connection.js';
 import routes from './routes/index.js';
@@ -24,16 +25,21 @@ app.use(express.json());
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '../client/dist');
-  console.log(distPath);  // Log the resolved path to confirm it in the Render logs
+  console.log(distPath);  // Confirm this path in Render logs
   app.use(express.static(distPath));
+
+  // Fallback to serve index.html for all other routes in production
+  app.get('*', (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  });
 }
 
 // Asynchronous function to start the server
 async function startServer() {
   // Wait for Apollo Server to start
-  
+
   await server.start();
-  
+
   // Apply Apollo middleware to the Express server
   server.applyMiddleware({ app });
 
