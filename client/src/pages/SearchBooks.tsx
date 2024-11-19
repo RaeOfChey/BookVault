@@ -10,17 +10,17 @@ import type { GoogleAPIBook } from '../models/GoogleAPIBook';
 
 const SearchBooks = () => {
   const [searchInput, setSearchInput] = useState('');
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+  const [savedBookIds, setSavedBookIds] = useState<Set<string>>(new Set(getSavedBookIds())); // Change to Set
   const [saveBook] = useMutation(SAVE_BOOK);
 
   const { data, loading, error } = useQuery(SEARCH_BOOKS, {
     variables: { search: searchInput },
-    skip: !searchInput, // Only run query if searchInput is provided
+    skip: !searchInput,
   });
 
-  // save bookIds to localStorage when component unmounts
+  // Save bookIds to localStorage when component unmounts
   useEffect(() => {
-    return () => saveBookIds(savedBookIds);
+    return () => saveBookIds(Array.from(savedBookIds)); // Convert Set to Array
   }, [savedBookIds]);
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -35,9 +35,6 @@ const SearchBooks = () => {
 
     if (!bookToSave) return;
 
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-    if (!token) return;
-
     try {
       const response = await saveBook({
         variables: {
@@ -50,7 +47,7 @@ const SearchBooks = () => {
       });
 
       if (response.data) {
-        setSavedBookIds([...savedBookIds, bookId]);
+        setSavedBookIds((prev) => new Set(prev).add(bookId)); // Add to Set
       }
     } catch (err) {
       console.error(err);
@@ -58,11 +55,11 @@ const SearchBooks = () => {
   };
 
   if (loading) {
-    return <h2>Loading...</h2>;
+    return <h2>Searching for books...</h2>; // Updated loading message
   }
 
   if (error) {
-    return <h2>Error: {error.message}</h2>;
+    return <h2>Error occurred: Please try again later.</h2>; // Updated error message
   }
 
   const searchedBooks: Book[] = data?.searchBooks || [];
@@ -76,16 +73,16 @@ const SearchBooks = () => {
             <Row>
               <Col xs={12} md={8}>
                 <Form.Control
-                  name='searchInput'
+                  name="searchInput"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a book'
+                  type="text"
+                  size="lg"
+                  placeholder="Search for a book"
                 />
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button type="submit" variant="success" size="lg">
                   Submit Search
                 </Button>
               </Col>
@@ -95,7 +92,7 @@ const SearchBooks = () => {
       </div>
 
       <Container>
-        <h2 className='pt-5'>
+        <h2 className="pt-5">
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
             : 'Search for a book to begin'}
@@ -103,19 +100,19 @@ const SearchBooks = () => {
         <Row>
           {searchedBooks.map((book) => (
             <Col md="4" key={book.bookId}>
-              <Card border='dark'>
-                {book.image && <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />}
+              <Card border="dark">
+                {book.image && <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant="top" />}
                 <Card.Body>
                   <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
+                  <p className="small">Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
-                      disabled={savedBookIds.some((savedBookId: string) => savedBookId === book.bookId)}
-                      className='btn-block btn-info'
+                      disabled={savedBookIds.has(book.bookId)} // Check Set for savedBookIds
+                      className="btn-block btn-info"
                       onClick={() => handleSaveBook(book.bookId)}
                     >
-                      {savedBookIds.some((savedBookId: string) => savedBookId === book.bookId)
+                      {savedBookIds.has(book.bookId) // Check Set for savedBookIds
                         ? 'This book has already been saved!'
                         : 'Save this Book!'}
                     </Button>

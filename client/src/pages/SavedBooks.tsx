@@ -12,7 +12,10 @@ const SavedBooks = () => {
   const { data, loading, error } = useQuery(GET_ME, {
     skip: !Auth.loggedIn(), // Skip the query if the user is not logged in
   });
-  const [removeBook] = useMutation(REMOVE_BOOK);
+
+  const [removeBook] = useMutation(REMOVE_BOOK, {
+  refetchQueries: [{ query: GET_ME }],
+});
 
   // Fetch user data when logged in (in case of session expiry or user not logged in initially)
   useEffect(() => {
@@ -22,6 +25,9 @@ const SavedBooks = () => {
   }, [data]);
 
   const handleDeleteBook = async (bookId: string) => {
+    if (!window.confirm('Are you sure you want to delete this book?')) {
+      return;
+    }
     try {
       const { data } = await removeBook({
         variables: { bookId },
