@@ -13,13 +13,12 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^8.2.0"
-  },
+
   "dependencies": {
     "@types/axios": "^0.9.36",
     "apollo-server-express": "^3.13.0",
     "axios": "^1.7.7",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "concurrently": "^8.2.2"
   }
 }
