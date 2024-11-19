@@ -7,6 +7,7 @@ import { typeDefs, resolvers } from './schema/index.js'; // Ensure these exports
 
 const app = express() as any;
 const PORT = process.env.PORT || 3001;
+const HOST = '0.0.0.0';
 
 // Create an instance of Apollo Server
 const server = new ApolloServer({
@@ -34,7 +35,7 @@ app.use(routes);
 
 // Connect to the database and start the server
 db.once('open', () => {
-  app.listen(PORT, () => {
+  app.listen(PORT, HOST, () => {
     console.log(`🌍 Now listening on localhost:${PORT}${server.graphqlPath}`);
   });
 });
