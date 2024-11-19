@@ -23,7 +23,9 @@ app.use(express.json());
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+  const distPath = path.join(__dirname, '../client/dist');
+  console.log(distPath);  // Log the resolved path to confirm it in the Render logs
+  app.use(express.static(distPath));
 }
 
 // Asynchronous function to start the server
