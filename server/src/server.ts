@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // Fallback to serve index.html for all other routes in production
   app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
   });
 }
 
