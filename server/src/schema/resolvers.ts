@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { UserDocument } from '../models/User';
-import { BookDocument } from '../models/Book';
-import User from '../models/User';
-import { signToken } from '../services/auth';
+import { UserDocument } from '../models/User.js';
+import { BookDocument } from '../models/Book.js';
+import User from '../models/User.js';
+import { signToken } from '../services/auth.js';
 
 // Define types for the API response
 interface VolumeInfo {
