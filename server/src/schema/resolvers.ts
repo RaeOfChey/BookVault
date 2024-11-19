@@ -1,7 +1,28 @@
+import axios from 'axios';
 import { UserDocument } from '../models/User';
 import { BookDocument } from '../models/Book';
 import User from '../models/User';
 import { signToken } from '../services/auth';
+
+// Define types for the API response
+interface VolumeInfo {
+  title: string;
+  authors: string[];
+  description: string;
+  imageLinks?: {
+    thumbnail: string;
+  };
+  infoLink: string;
+}
+
+interface Book {
+  id: string;
+  volumeInfo: VolumeInfo;
+}
+
+interface GoogleBooksAPIResponse {
+  items: Book[];
+}
 
 export const resolvers = {
   Query: {
@@ -14,12 +35,13 @@ export const resolvers = {
     // New query to search for books
     searchBooks: async (_: any, { query }: { query: string }) => {
       try {
-        const response = await axios.get('https://www.googleapis.com/books/v1/volumes', {
+        // Type the response as GoogleBooksAPIResponse
+        const response = await axios.get<GoogleBooksAPIResponse>('https://www.googleapis.com/books/v1/volumes', {
           params: { q: query },
         });
 
-        // Transform the response to match the Book type in your schema
-        return response.data.items.map((book: any) => ({
+        // Now TypeScript knows that response.data.items is an array of Book objects
+        return response.data.items.map((book: Book) => ({
           bookId: book.id,
           title: book.volumeInfo.title || 'No title available',
           authors: book.volumeInfo.authors || ['Unknown author'],
