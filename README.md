@@ -35,6 +35,14 @@ Example of login page
 - Apollo Client integration for seamless front-end and back-end communication.
 - Fully deployed on Render with a MongoDB Atlas database.
 
+<img width="640" alt="Module 18 Screenshot 2" src="https://github.com/user-attachments/assets/2566f82f-3855-47d8-9b89-857e1316fedd">
+
+Example of saving a book
+
+<img width="640" alt="Module 18 Screenshot 3" src="https://github.com/user-attachments/assets/b2ca97bd-57fc-419e-bc31-eb524dfc872d">
+
+Eaxmple of saved books
+
 ## Installation
 To use the application, follow these steps:
 
