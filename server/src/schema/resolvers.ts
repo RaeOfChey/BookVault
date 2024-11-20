@@ -83,7 +83,7 @@ export const resolvers = {
       return updatedUser;
     },
     // Mutation to delete a book from the user's list
-    deleteBook: async (_: any, { bookId }: { bookId: string }, context: { user: UserDocument }) => {
+    removeBook: async (_: any, { bookId }: { bookId: string }, context: { user: UserDocument }) => {
       if (!context.user) throw new Error('You need to be logged in!');
       const updatedUser = await User.findByIdAndUpdate(
         context.user._id,

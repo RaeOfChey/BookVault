@@ -17,9 +17,8 @@ const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
 
   // Apollo useMutation hook for logging in
   const [loginUser, { error }] = useMutation(LOGIN_USER, {
-    variables: { email: userFormData.email, password: userFormData.password },
     onCompleted: (data) => {
-      const { token } = data.loginUser;
+      const { token } = data.login; // Adjusted to match the mutation response
       Auth.login(token);
       handleModalClose(); // Close the modal after successful login (if applicable)
     },
@@ -41,7 +40,15 @@ const LoginForm = ({ handleModalClose }: { handleModalClose: () => void }) => {
     }
 
     try {
-      await loginUser();
+      const { data } = await loginUser({ variables: { email: userFormData.email, password: userFormData.password } });
+
+      // Ensure data.login is defined before destructuring
+      if (data && data.login) {
+        const { token } = data.login; // Destructure token
+        Auth.login(token); // Call the Auth.login method
+      } else {
+        console.error('Login failed: No data returned');
+      }
     } catch (err) {
       console.error(err);
       setShowAlert(true); // Show the alert when an error occurs
