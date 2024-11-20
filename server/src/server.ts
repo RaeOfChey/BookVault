@@ -1,58 +1,46 @@
 import express from 'express';
-import { Request, Response } from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import path from 'path';
-import db from './config/connection.js';
-import routes from './routes/index.js';
-import { ApolloServer } from 'apollo-server-express';
+import { authenticateToken } from './services/auth.js';
 import { typeDefs, resolvers } from './schema/index.js';
-import { fileURLToPath } from 'node:url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import db from './config/connection.js';
 
-const app = express() as any;
 const PORT = process.env.PORT || 3001;
+const app = express();
 
-// Create an instance of Apollo Server
 const server = new ApolloServer({
-typeDefs,
-resolvers,
+  typeDefs,
+  resolvers,
 });
 
-// Middleware for parsing application/json
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+const startApolloServer = async () => {
+  await server.start();
+  
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  
+  app.use('/graphql', expressMiddleware(server as any,
+    {
+      context: authenticateToken as any
+    }
+  ));
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-const distPath = path.join(__dirname, '../client/dist');
-console.log('Serving static files from:', distPath);
-app.use(express.static(distPath));
+  // if we're in production, serve client/dist as static assets
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// Fallback to serve index.html for all other routes in production
-app.get('*', (_req: Request, res: Response) => {
-res.sendFile(path.join(__dirname, '../../client/dist/index.html')); // Go back to the correct root level
-});
-}
+    app.get('*', (_req, res) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    });
+  }
+  
+  db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// Asynchronous function to start the server
-async function startServer() {
-// Wait for Apollo Server to start
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+    console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  });
+};
 
-await server.start();
-
-// Apply Apollo middleware to the Express server
-server.applyMiddleware({ app });
-
-// Use your existing routes (if any)
-app.use(routes);
-
-// Connect to the database and start the server
-db.once('open', () => {
-app.listen(PORT, '0.0.0.0', () => {
-console.log(`🌍 Now listening on localhost:${PORT}${server.graphqlPath}`);
-});
-});
-}
-
-// Start the server
-startServer();
+startApolloServer();
