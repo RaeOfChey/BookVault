@@ -20,22 +20,23 @@ const server = new ApolloServer({
 
 const startApolloServer = async () => {
   await server.start();
-  
+
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  
+
   app.use('/graphql', expressMiddleware(server as any,
-    {context: authenticateToken as any}
+    { context: authenticateToken as any }
   ));
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
+    console.log('Serving static files');
 
     app.get('*', (_req, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      res.sendFile(path.join(__dirname, '../../client/dist/index.html')); // Go back to the correct root level
     });
   }
-  
+
   db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
   app.listen(PORT, () => {
