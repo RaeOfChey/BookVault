@@ -16,6 +16,15 @@
 9. [Tests](#tests)
 10. [Questions](#questions)
 
+## Description
+BookVault is a modern book search application built with the MERN stack, refactored to use a GraphQL API with Apollo Server. This application enables avid readers to discover new books, save their favorites to a personal collection, and manage their saved book list through a clean and intuitive user interface.
+
+To view the application, simply navigate to the live website at https://bookvault-mvmw.onrender.com.
+
+<img width="640" alt="Module 18 Screenshot 1" src="https://github.com/user-attachments/assets/b0f5d85a-e05f-423e-842a-0917c38a29dd">
+
+Example of login page
+
 ## Features
 - GraphQL API for enhanced data fetching and updates.
 - CRUD operations for managing user accounts and saved books:
