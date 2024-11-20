@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 
-interface JwtPayload {
+export interface JwtPayload { // Add export keyword
   _id: unknown;
   username: string;
-  email: string,
+  email: string;
 }
 
 // Middleware to authenticate token in GraphQL context

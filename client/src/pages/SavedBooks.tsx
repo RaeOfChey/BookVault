@@ -42,19 +42,19 @@ const SavedBooks = () => {
   };
 
   // If the user is not logged in or data is still loading, show a loading state or message
-  if (!Auth.loggedIn()) {
-    return <h2>Please log in to view your saved books!</h2>;
-  }
-
   if (loading) {
     return <h2>LOADING...</h2>;
   }
-
+  
   if (error) {
     return <h2>Error: {error.message}</h2>;
   }
-
-  const user = userData as User; // Cast userData to type User
+  
+  if (!data || !data.me) {
+    return <h2>No user data found.</h2>; // Handle case where user data is not available
+  }
+  
+  const user = data.me; // Access user data safely now
 
   return (
     <>
