@@ -83,9 +83,6 @@ API Features:
 - `bcrypt` - Hashes user passwords for secure authentication.
 - `jsonwebtoken` - Handles user tokenization for secure sessions.
 - `mongoose` - ODM for MongoDB, managing schema and data validation.
-   
-## Description
-A modern book search engine built with the MERN stack. Refactored to use GraphQL with Apollo Server, allowing users to search books via Google Books API, save favorites, and manage their reading list. A sleek, intuitive interface for book lovers to find their next great read!
 
 ## License
 This project is licensed under the MIT License, which allows you to freely use, modify, and distribute this software, provided proper attribution is given.
