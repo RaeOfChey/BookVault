@@ -70,9 +70,6 @@ API Features:
 - Apollo Server (GraphQL)
 
 **Development Environment**:
-  - Node.js
-
-**Development Environment**:
   - MongoDB Atlas
 
 ## Dependencies and Installs
